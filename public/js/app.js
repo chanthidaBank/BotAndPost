@@ -2100,10 +2100,39 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  mounted: function mounted() {
-    console.log('Component mounted.');
-  }
+  data: function data() {
+    return {
+      command: null,
+      x: '-',
+      y: '-',
+      dir: '-',
+      ValidateOutput: false
+    };
+  },
+  methods: {
+    handleClick: function handleClick() {
+      var _this = this;
+
+      axios.get("walk/".concat(this.command)).then(function (response) {
+        if (response.data.x !== null && response.data.y !== null && response.data.dir !== null) {
+          _this.x = response.data.x;
+          _this.y = response.data.y;
+          _this.dir = response.data.dir;
+          _this.ValidateOutput = true;
+        } else {
+          _this.ValidateOutput = false;
+        }
+      })["catch"](function (error) {
+        console.log(error);
+        _this.errored = true;
+      });
+    }
+  },
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -37585,48 +37614,101 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", [
+    _c("h5", [_vm._v("Command")]),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group row" }, [
+      _c("div", { staticClass: "col-md-8" }, [
+        _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.command,
+              expression: "command",
+            },
+          ],
+          staticClass: "form-control",
+          attrs: { type: "text", name: "command", value: "", id: "command" },
+          domProps: { value: _vm.command },
+          on: {
+            input: function ($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.command = $event.target.value
+            },
+          },
+        }),
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-4" }, [
+        _c("input", {
+          staticClass: "btn btn-primary",
+          attrs: { value: "Submit" },
+          on: {
+            click: function ($event) {
+              return _vm.handleClick()
+            },
+          },
+        }),
+      ]),
+    ]),
+    _vm._v(" "),
+    _c("hr"),
+    _vm._v(" "),
+    _c("div", { staticClass: "form-group" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", [
+        _vm._v(
+          "\n                  " + _vm._s(_vm.command) + "\n              "
+        ),
+      ]),
+    ]),
+    _vm._v(" "),
+    _c("hr"),
+    _vm._v(" "),
+    _c("div", [
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", [
+          _c("u", [_vm._v("Output")]),
+          _c("br"),
+          _vm._v(" "),
+          _vm.ValidateOutput
+            ? _c("div", [
+                _vm._v(
+                  " \n                                  Result = ( " +
+                    _vm._s(_vm.x) +
+                    " , " +
+                    _vm._s(_vm.y) +
+                    " ) "
+                ),
+                _c("br"),
+                _vm._v(
+                  "\n                                  Direction = " +
+                    _vm._s(_vm.dir) +
+                    "\n                              "
+                ),
+              ])
+            : _vm.x !== "-"
+            ? _c("div", [
+                _vm._v(
+                  "\n                                  Wrong Command\n                              "
+                ),
+              ])
+            : _vm._e(),
+        ]),
+      ]),
+    ]),
+  ])
 }
 var staticRenderFns = [
   function () {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("h5", [_vm._v("Command")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group row" }, [
-        _c("div", { staticClass: "col-md-8" }, [
-          _c("input", {
-            staticClass: "form-control",
-            attrs: { type: "text", name: "command", value: "", id: "command" },
-          }),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-4" }, [
-          _c("input", {
-            staticClass: "btn btn-primary",
-            attrs: { value: "Submit" },
-          }),
-        ]),
-      ]),
-      _vm._v(" "),
-      _c("hr"),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group" }, [
-        _c("label", [_c("u", [_vm._v("Logs")]), _c("br")]),
-        _vm._v(" "),
-        _c("div"),
-      ]),
-      _vm._v(" "),
-      _c("hr"),
-      _vm._v(" "),
-      _c("div", [
-        _c("div", { staticClass: "form-group" }, [
-          _c("label", [_c("u", [_vm._v("Output")]), _c("br")]),
-        ]),
-      ]),
-    ])
+    return _c("label", [_c("u", [_vm._v("Command")]), _c("br")])
   },
 ]
 render._withStripped = true

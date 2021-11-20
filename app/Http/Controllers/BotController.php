@@ -29,14 +29,13 @@ class BotController extends Controller
                                  
         $str = $str_W;
         $str_comma = explode(",",$str);
-        
+       
         for($i = 0; $i < count($str_comma); $i++)
         {            
             if($str_comma[$i] != '') {
                 array_push($directions,$str_comma[$i]);               
             }
-        }
-        
+        }        
         list($x,$y,$dir) = $this->algorithm($directions);    
 
         return response()->json([
@@ -52,6 +51,7 @@ class BotController extends Controller
       $y=0;
       $dir = "N";
 
+      try{
         for($i = 0; $i < count($directions); $i++) {    
 
             $distance = $directions[$i];                    
@@ -110,8 +110,12 @@ class BotController extends Controller
               }
             }
              
-        }
-
+        }       
         return array($x,$y,$dir);
+
+      } catch (\Exception $e) {         
+          return false;
+      }
+        
     }
 }
